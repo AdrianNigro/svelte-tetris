@@ -5,6 +5,8 @@
     let canvas: any
     let context: any
     let points = 0
+    let mainLabel = 'Start'
+    let mainScore = ''
 
     const BLOCK_SIZE = 20
     const BLOCK_WIDTH = 14
@@ -127,8 +129,6 @@
         update()
     }
 
-    let dropCounter = 0
-    let lastTime = 0
 
 
     function rotatePiece (){
@@ -163,6 +163,8 @@
     }
 
 
+    let dropCounter = 0
+    let lastTime = 0
 
     function update(time = 0){
         const deltaTime = time - lastTime
@@ -198,10 +200,10 @@
     }
 
     function draw() {
-        if (!canvas ||
-            !canvas.width){
-                console.log('canvas null', canvas)
-            }
+        // if (!canvas ||
+        //     !canvas.width){
+        //         console.log('canvas null', canvas)
+        //     }
         console.log('draw')
         context.fillStyle = "#000"
         context.fillRect(0,0, canvas.width, canvas.height)
@@ -220,6 +222,11 @@
                 if(value){
                     context.fillStyle='red'
                     context.fillRect(x+piece.position.x,y+piece.position.y,1,1)
+
+                    // context.strokeStyle = "blue";
+                    // context.beginPath();
+                    // context.roundRect(x+piece.position.x,y+piece.position.y,1,1, [40]);
+                    // context.stroke();
                 }
             })
         })
@@ -239,7 +246,11 @@
         piece.position.y = 0
 
         if (checkCollision()){
-            alert('game over')
+            // alert('game over')
+            mainLabel = 'Game Over'
+            mainScore = points.toString()
+            startLabel.style = 'display: grid'
+
             board.forEach((row)=> row.fill(0))
             points = 0
         }
@@ -266,8 +277,13 @@
 </script>
 
 <section bind:this={startLabel} on:click={start}>
-    Start
+    <div>{mainLabel}</div>
+    {#if mainScore != ''}
+    <div class='mainScore'>
+        your score: {mainScore}
+    </div>
+    {/if}
 </section>
-<canvas bind:this="{canvas}" contextmenu="2d">
+<canvas bind:this="{canvas}">
 </canvas>
-<span>Points: {points}</span>
+<span class='points'>Points: {points}</span>

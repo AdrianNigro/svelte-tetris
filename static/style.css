@@ -34,3 +34,12 @@ section {
     display: grid;
     place-content: center;
 }
+
+.mainScore{
+    color: yellow;
+    font-size: 38px;
+}
+
+.points {
+    margin: 20px 0px 20px 0px;
+}
