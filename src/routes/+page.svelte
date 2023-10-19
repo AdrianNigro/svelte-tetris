@@ -1,7 +1,5 @@
 <script lang=ts>
 	import { browser } from "$app/environment";
-	import { onMount } from "svelte";
-
 
     let startLabel: any
     let canvas: any
@@ -119,12 +117,13 @@
                     removeRows()
                 }
             }
-
+            draw()
         })
 
         startLabel.style = 'display: none'
         // startLabel.remove()
         canvas.focus()
+
         update()
     }
 
@@ -179,9 +178,10 @@
                 freezPiece()
                 removeRows()
             }
+            draw()
         }
 
-        draw()
+        // draw()
         window.requestAnimationFrame(update)
     }
 
@@ -198,6 +198,10 @@
     }
 
     function draw() {
+        if (!canvas ||
+            !canvas.width){
+                console.log('canvas null', canvas)
+            }
         console.log('draw')
         context.fillStyle = "#000"
         context.fillRect(0,0, canvas.width, canvas.height)
