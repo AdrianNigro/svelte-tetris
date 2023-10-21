@@ -9,8 +9,9 @@ export function getBoard(){
     let board:any[] = []
 
     // let row = [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    let row = Array(BLOCK_WIDTH).fill(0)
+    // let row = Array(BLOCK_WIDTH).fill(0)
     for(let i=0; i<30; i++){
+        let row = Array(BLOCK_WIDTH).fill(0)
         board.push(row)
     }
  

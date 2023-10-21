@@ -13,7 +13,8 @@
 
     let piece = {
         position: {x:7, y:0},
-        shape: PIECES[Math.floor(Math.random() * PIECES.length)]
+        // shape: PIECES[Math.floor(Math.random() * PIECES.length)]
+        shape: [[1,1,1,1]]
     }
     
     
@@ -140,7 +141,7 @@
         context.fillRect(0,0, canvas.width, canvas.height)
 
         board.forEach((row, y)=>{
-            row.forEach((value, x)=> {
+            row.forEach((value: number, x: any)=> {
                 if(value === 1){
                     context.fillStyle='yellow'
                     context.fillRect(x,y,1,1)
@@ -163,10 +164,11 @@
         })
     }
 
-    function freezPiece () {
+    function freezPiece() {
         piece.shape.forEach((row, y)=>{
             row.forEach((value, x)=> {
                 if(value===1){
+                    console.log('y,x', y,x)
                     board[y +piece.position.y][x+piece.position.x] = 1
                 }
             })
@@ -192,7 +194,7 @@
         const rowsToRemove:number[] = []
 
         board.forEach((row, y)=>{
-            if (row.every(value => value===1)){
+            if (row.every((value: number) => value===1)){
                 rowsToRemove.push(y)
             }
         })
@@ -207,6 +209,8 @@
 
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <section bind:this={startLabel} on:click={start}>
     <div>{mainLabel}</div>
     {#if mainScore != ''}
