@@ -1,6 +1,6 @@
 <script lang=ts>
 	import { browser } from "$app/environment";
-    import { EVENTS, PIECES, getBoard } from "./helper";
+    import { BLOCK_HEIGHT, BLOCK_SIZE, BLOCK_WIDTH, EVENTS, PIECES, getBoard } from "./helper";
 
     let startLabel: any
     let canvas: any
@@ -8,10 +8,6 @@
     let points = 0
     let mainLabel = 'Start'
     let mainScore = ''
-
-    const BLOCK_SIZE = 20
-    const BLOCK_WIDTH = 14
-    const BLOCK_HEIGHT = 30
 
     let board = getBoard()
 
