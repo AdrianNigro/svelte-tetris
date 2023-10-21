@@ -1,5 +1,6 @@
 <script lang=ts>
 	import { browser } from "$app/environment";
+    import { BLOCK_HEIGHT, BLOCK_SIZE, BLOCK_WIDTH, EVENTS, PIECES, getBoard } from "./helper";
 
     let startLabel: any
     let canvas: any
@@ -8,94 +9,22 @@
     let mainStart = 'Start'
     let mainScore = ''
 
-    const BLOCK_SIZE = 20
-    const BLOCK_WIDTH = 14
-    const BLOCK_HEIGHT = 30
-
-    const EVENTS = {
-        LEFT:  'ArrowLeft',
-        RIGHT: 'ArrowRight',
-        DOWN:  'ArrowDown',
-        UP:    'ArrowUp'
-    }
-
-    let board = [
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    ]
-
-    const PIECES = [
-        [
-            [1,1],
-            [1,1]
-        ],
-        [
-            [1,1,1,1]
-        ],
-        [
-            [1,0],
-            [1,1],
-            [0,1]
-        ],
-        [
-            [0,1],
-            [1,1],
-            [1,0]
-        ],
-        [
-            [0,1,0],
-            [1,1,1]
-        ],
-
-        [
-            [1,0,0],
-            [1,1,1]
-        ],
-        [
-            [0,0,1],
-            [1,1,1]
-        ]
-    ]
+    let board = getBoard()
 
     let piece = {
         position: {x:7, y:0},
-        shape: [
-            [1,1,1,1]
-        ]
+        shape: PIECES[Math.floor(Math.random() * PIECES.length)]
     }
     
     
     function start() {
         if(!browser) return
         
+        const audio = new window.Audio('./tetris.mp3')
+        audio.volume = 0.5
+        audio.play()
+        audio.loop = true
+
         canvas.width = BLOCK_SIZE * BLOCK_WIDTH
         canvas.height = BLOCK_SIZE * BLOCK_HEIGHT
         context = canvas.getContext('2d')
@@ -165,15 +94,17 @@
 
     let dropCounter = 0
     let lastTime = 0
+    let dropCounterSpeed = 1000
 
     function update(time = 0){
         const deltaTime = time - lastTime
         lastTime = time
         dropCounter += deltaTime
 
-        if(dropCounter > 1000){
+        if(dropCounter > dropCounterSpeed){
             piece.position.y++
             dropCounter = 0
+            dropCounterSpeed--
 
             if (checkCollision()){
                 piece.position.y--
