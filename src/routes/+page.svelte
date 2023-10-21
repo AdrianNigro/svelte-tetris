@@ -6,7 +6,7 @@
     let canvas: any
     let context: any
     let points = 0
-    let mainLabel = 'Start'
+    let mainStart = 'Start'
     let mainScore = ''
 
     let board = getBoard()
@@ -180,7 +180,7 @@
 
         if (checkCollision()){
             // alert('game over')
-            mainLabel = 'Game Over'
+            mainStart = 'Game Over'
             mainScore = points.toString()
             startLabel.style = 'display: grid'
 
@@ -211,8 +211,15 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
+<<<<<<< HEAD
 <section bind:this={startLabel} on:click={start}>
     <div>{mainLabel}</div>
+=======
+<section 
+    bind:this={startLabel} on:click={start}>
+    <div class='mainBody'>{mainStart}
+    </div>
+>>>>>>> 51136f3219ec1f7075b85b8ad6ed3511449d58f7
     {#if mainScore != ''}
     <div class='mainScore'>
         your score: {mainScore}
@@ -222,3 +229,15 @@
 <canvas bind:this="{canvas}">
 </canvas>
 <span class='points'>Points: {points}</span>
+
+<style>
+    .mainBody{
+        display: grid;
+        place-items: center;
+        background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO4BwGtHSx92reOJLouCBv-NXoYGzrJeaItg&usqp=CAU');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 50vw;
+        height: 70vh; 
+    }
+</style>
