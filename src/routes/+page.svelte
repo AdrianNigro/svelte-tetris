@@ -105,7 +105,7 @@
         if(dropCounter > dropCounterSpeed){
             piece.position.y++
             dropCounter = 0
-            dropCounterSpeed--
+            dropCounterSpeed-=10
 
             if (checkCollision()){
                 piece.position.y--
